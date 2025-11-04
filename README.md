@@ -1,24 +1,30 @@
-# 🧠 Utvecklingsfilosofi: Modularisering och OOP
+Utvecklingsfilosofi: Modularisering och OOP
 
-Den största lärdomen i detta projekt var att framgången låg i att **jag delade upp det komplexa problemet** i mindre, modulära C++-klasser. Detta är grunden i Object-Oriented Programming (OOP), och det gjorde att jag kunde säkerställa att varje del hade ett enskilt ansvar (Single Responsibility Principle).
+Den viktigaste insikten i detta projekt var att framgången kom av att dela upp det komplexa problemet i mindre, modulära C++-klasser. Detta är kärnan i objektorienterad programmering (OOP), och det gjorde det möjligt att ge varje del ett tydligt och avgränsat ansvar enligt Single Responsibility Principle.
 
-Jag gav varje klass en specifik roll:
+Varje klass fick en specifik roll:
 
-* **Vehicle:** Bär endast data.
-* **Roads:** Kapslar in och hanterar fordonsköerna (med std::queue).
-* **TrafficLight:** Håller endast tillståndet (Röd, Gul, Grön) och saknar egen tidtagning.
-* **Intersection:** Centraliserar all styrlogik, hanterar cykeln (State Machine) och konflikterna.
+Vehicle: Håller endast data.
 
-***
+Roads: Kapslar in och hanterar fordonsköer med std::queue.
 
-# ⚙️ Lärdomar om C++ (Den Stora Utmaningen)
+TrafficLight: Håller endast tillståndet (Röd, Gul, Grön) och har ingen egen tidtagning.
 
-Den största utmaningen i projektet var **inte själva problemlösningen** (trafikreglerna), utan att tvinga mig själv att tänka utifrån **hur C++:s strikta system fungerar**, jämfört med ett flexibelt språk som Python som jag är van vid.
+Intersection: Centraliserar styrlogik, hanterar cykler (state machine) och konflikter.
 
-Jag var tvungen att hantera följande:
+Lärdomar om C++ (Den stora utmaningen)
 
-1.  **Typ-säkerhet (`enum class`):** Jag bytte ut vaga strängar/heltal mot strikta `enum class`-typer, vilket tvingade mig att tänka säkrare från grunden.
-2.  **Explicit Kontroll:** Jag insåg att jag måste vara explicit med referenser och tvinga fram tillstånd. Intersection måste tvinga fram färgen på TrafficLight via en Setter, istället för att låta ljuset sköta det automatiskt.
-3.  **Containrar:** Att använda `std::queue` för köer visade sig vara det mest optimerade och strikta sättet att hantera fordonsflödet i C++.
+Den största utmaningen i projektet handlade inte om trafiklogiken i sig, utan om att anpassa mitt sätt att tänka till C++ och dess mer strikta system jämfört med Python som jag är mer van vid.
 
-**Slutsats:** Genom att bygga upp systemet modulärt, har jag skapat en robust och effektiv lösning, samtidigt som jag bemästrat de nödvändiga principerna för C++-utveckling.
+Några centrala lärdomar:
+
+Typ-säkerhet med enum class
+Jag ersatte vaga strängar och heltal med strikta enum class-typer, vilket tvingade fram säkrare design från början.
+
+Tydlig kontroll och ansvar
+Jag behövde vara uttrycklig med referenser och tillstånd. Exempelvis måste Intersection aktivt sätta färg på TrafficLight via en setter i stället för att låta ljuset sköta allt självt.
+
+Korrekt val av datastrukturer
+Att använda std::queue för fordonsköer visade sig vara det mest logiska, strikta och optimerade sättet att hantera trafikflödet.
+
+Slutsats: Genom att bygga systemet steg för steg med tydliga ansvar och strikt typkontroll kunde jag skapa en robust och skalbar trafik­simulering i C++.modulärt, har jag skapat en robust och effektiv lösning, samtidigt som jag bemästrat de nödvändiga principerna för C++-utveckling.
