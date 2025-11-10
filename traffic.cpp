@@ -6,9 +6,6 @@
 
 using namespace std;
 
-// ===============================================
-// 1. GLOBALA ENUM-KLASSER
-// ===============================================
 
 enum class Intent_of_direction { Left, Straight, Right };
 enum class Light_Color { Red, Yellow, Green };
@@ -16,9 +13,7 @@ enum class Light_Color { Red, Yellow, Green };
 // Ny Enum: För Intersection Cycle State
 enum class Intersection_State { North_South_Green, North_South_Yellow, East_West_Green, East_West_Yellow };
 
-// ===============================================
-// 2. KLASS: VEHICLE (BIL)
-// ===============================================
+
 
 class Vehicle {
 private:
@@ -41,9 +36,7 @@ public:
     }
 };
 
-// ===============================================
-// 3. KLASS: TRAFFICLIGHT (Förenklad, styrs av Intersection)
-// ===============================================
+
 
 class TrafficLight {
 private:
@@ -58,9 +51,7 @@ public:
     void set_color(Light_Color new_color) { current_color = new_color; }
 };
 
-// ===============================================
-// 4. KLASS: ROADS (VÄGAR)
-// ===============================================
+
 
 class Roads {
 private:
@@ -87,9 +78,6 @@ public:
     bool has_vehicles() const { return !left_lane.empty() || !straight_right_lane.empty(); }
 };
 
-// ===============================================
-// 5. KLASS: INTERSECTION (KONTROLLCENTRALEN)
-// ===============================================
 
 class Intersection {
 private:
@@ -98,11 +86,11 @@ private:
     Roads east = Roads("Ost");
     Roads west = Roads("Vast");
     
-    // NYA KONTROLLVARIABLER
+    
     Intersection_State current_state = Intersection_State::North_South_Green;
     int state_timer = 0;
     
-    // Tidsramar i ticks (sekunder)
+    // Tidsramar i sekunder
     const int NS_GREEN_TIME = 8;
     const int EW_GREEN_TIME = 8;
     const int YELLOW_TIME = 2;
@@ -128,7 +116,7 @@ private:
     }
 
     void handle_traffic(Roads& primary_road, Roads& opposing_road) {
-        // Logik för RAKT FRAM och HÖGER (konfliktfritt)
+        // Logik för RAKT FRAM och HÖGER 
         if (primary_road.get_light().get_color() == Light_Color::Green) {
             if (!primary_road.get_straight_right_lane().empty()) {
                 Vehicle v = primary_road.get_straight_right_lane().front();
@@ -136,7 +124,7 @@ private:
                 cout << "   - " << primary_road.get_name() << " kör RAKT/HÖGER: " << v.to_string() << endl;
             }
 
-            // Logik för VÄNSTER (KONTROLL AV KONFLIKT)
+            // Logik för VÄNSTER 
             if (!primary_road.get_left_lane().empty()) {
                 // Denna logik är förenklad: låt vänstersväng köra om RAKT fram filen är tom
                 // En mer avancerad version skulle kontrollera mötande rakt fram trafik.
@@ -151,7 +139,7 @@ private:
 
 public:
     Intersection() {
-        // Initiera några bilar
+
         north.add_vehicle(Vehicle(101, 50.0, Intent_of_direction::Straight));
         north.add_vehicle(Vehicle(102, 50.0, Intent_of_direction::Left));
         north.add_vehicle(Vehicle(103, 50.0, Intent_of_direction::Straight));
@@ -163,7 +151,7 @@ public:
     void process_tick() {
         state_timer++;
         
-        // --- 1. TIDSSTYRNING (STATE MACHINE) ---
+ 
         if (current_state == Intersection_State::North_South_Green && state_timer > NS_GREEN_TIME) {
             current_state = Intersection_State::North_South_Yellow;
             state_timer = 0;
@@ -182,10 +170,10 @@ public:
             cout << "   [CYKELBYTE] Nord/Syd byter till GRÖNT.\n";
         }
 
-        // 2. TILLÄMPA LJUSINSTÄLLNINGAR
+
         update_lights();
 
-        // 3. HANTERA BILFLÖDET
+
         if (current_state == Intersection_State::North_South_Green || current_state == Intersection_State::North_South_Yellow) {
             cout << "-> Nord/Syd Axeln Körs.\n";
             handle_traffic(north, south);
@@ -198,9 +186,6 @@ public:
     }
 };
 
-// ===============================================
-// 6. KLASS: TRAFFICSYSTEM (HUVUDKONTROLL)
-// ===============================================
 
 class TrafficSystem {
 private:
@@ -226,9 +211,7 @@ public:
     }
 };
 
-// ===============================================
-// 7. MAIN-FUNKTIONEN
-// ===============================================
+
 
 int main() {
     TrafficSystem system;
